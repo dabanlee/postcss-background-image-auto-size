@@ -4,7 +4,7 @@
 
 ## Get Started
 
-### Install
+### Installation
 
 ```sh
 $ yarn add postcss-background-image-auto-size --dev
@@ -18,7 +18,7 @@ const autoSize = require('postcss-background-image-auto-size');
 
 module.exports = {
     plugins: [
-        autosize(),
+        autoSize(),
     ],
 };
 ```
@@ -38,3 +38,7 @@ module.exports = {
     height: 400px;
 }
 ```
+
+## License
+
+Licensed under the [MIT License](https://github.com/JustClear/postcss-background-image-auto-size/blob/master/LICENSE)
