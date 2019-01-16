@@ -1,0 +1,10 @@
+.logo {
+    background-image: url('./images/logo.png');
+    width: 400px;
+    height: 400px;
+}
+.icon {
+    background-image: url('./images/icon.svg');
+    width: 100px;
+    height: 100px;
+}

@@ -1,0 +1,32 @@
+{
+  "name": "postcss-background-image-auto-size",
+  "destName": "auto-size",
+  "moduleName": "autosize",
+  "version": "1.0.0",
+  "description": "A PostCSS plugin to add CSS rules `width` and `height` for `background-image` automatically.",
+  "main": "dist/auto-size.es.js",
+  "scripts": {
+    "test": "node ./test",
+    "start": "NODE_ENV=development rollup -w -c rollup.config.js",
+    "dev": "NODE_ENV=development rollup -c rollup.config.js",
+    "prod": "NODE_ENV=production rollup -c rollup.config.js",
+    "publish": "rm -rf dist && npm run dev && npm run prod"
+  },
+  "repository": {
+    "url": "https://github.com/JustClear/postcss-background-image-auto-size.git",
+    "type": "git"
+  },
+  "author": "JustClear <576839360@qq.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "postcss": "^7.0.13",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-typescript": "^1.0.0",
+    "tslib": "^1.9.3",
+    "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "image-size": "^0.7.1"
+  }
+}
