@@ -1,6 +1,11 @@
 // helpers
 
 export const hasBackground = (rule: string) => /background[^:]*.*url[^;]+/gi.test(rule);
+export const isLocal = (url: string) => ['./', '../', '/'].map(path => url.indexOf(path) == 0).includes(true);
+export const isOlineImage = (url: string) => /^http[s]?/gi.test(url);
+export const isBase64Image = (url: string) => /^data\:image/gi.test(url);
+export const imageSupported = (url: string) => isLocal(url) || isOlineImage(url) || isBase64Image(url);
+export const getImageType = (url: string) => isOlineImage(url) ? 'online' : (isBase64Image(url) ? 'base64' : 'unsupported');
 
 export function getImageURL(rule: string) {
     const matches = /url(?:\(['"]?)(.*?)(?:['"]?\))/gi.exec(rule);
@@ -14,11 +19,4 @@ export function getMatchedImage(images: ImageType[], url: string): ImageType {
     const [matched] = images.filter(image => image.URL == url)
 
     return matched;
-}
-
-export function imageSupported(url: string) {
-    const http = /^http[s]?/gi;
-    const base64 = /^data\:image/gi;
-
-    return !http.test(url) && !base64.test(url);
 }

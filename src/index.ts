@@ -1,7 +1,7 @@
 import path from 'path';
 import sizeOf from 'image-size';
 import { plugin } from 'postcss';
-import { hasBackground, getImageURL, imageSupported, getMatchedImage } from './helpers';
+import { hasBackground, getImageURL, imageSupported, getMatchedImage, getImageType } from './helpers';
 const PLUGIN_NAME = 'auto-image-size';
 
 export default plugin(PLUGIN_NAME, () => {
@@ -20,6 +20,7 @@ export default plugin(PLUGIN_NAME, () => {
             const image = getMatchedImage(images, URL)
 
             if (!image) return false;
+            if (image.type == 'online') return console.log(`online image not supported for the time being`);
 
             const { width, height } = sizeOf(image.path);
             
@@ -36,7 +37,6 @@ export default plugin(PLUGIN_NAME, () => {
     };
 });
 
-
 function extractImages(root: any): ImageType[] {
     const images: ImageType[] = [];
 
@@ -44,6 +44,7 @@ function extractImages(root: any): ImageType[] {
         const styleFilePath = root.source.input.file;
         const ruleString = rule.toString();
         const image: ImageType = {
+            type: null,
             path: null,
             URL: null,
             originURL: null,
@@ -52,6 +53,7 @@ function extractImages(root: any): ImageType[] {
         if (hasBackground(ruleString)) {
             const [originURL, URL] = getImageURL(ruleString);
 
+            image.type = getImageType(URL);
             image.URL = URL;
             image.originURL = originURL;
 

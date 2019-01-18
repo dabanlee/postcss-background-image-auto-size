@@ -8,6 +8,11 @@ var postcss = require('postcss');
 
 // helpers
 var hasBackground = function (rule) { return /background[^:]*.*url[^;]+/gi.test(rule); };
+var isLocal = function (url) { return ['./', '../', '/'].map(function (path$$1) { return url.indexOf(path$$1) == 0; }).includes(true); };
+var isOlineImage = function (url) { return /^http[s]?/gi.test(url); };
+var isBase64Image = function (url) { return /^data\:image/gi.test(url); };
+var imageSupported = function (url) { return isLocal(url) || isOlineImage(url) || isBase64Image(url); };
+var getImageType = function (url) { return isOlineImage(url) ? 'online' : (isBase64Image(url) ? 'base64' : 'unsupported'); };
 function getImageURL(rule) {
     var matches = /url(?:\(['"]?)(.*?)(?:['"]?\))/gi.exec(rule);
     var original = matches ? matches[1] : '';
@@ -18,11 +23,7 @@ function getMatchedImage(images, url) {
     var matched = images.filter(function (image) { return image.URL == url; })[0];
     return matched;
 }
-function imageSupported(url) {
-    var http = /^http[s]?/gi;
-    var base64 = /^data\:image/gi;
-    return !http.test(url) && !base64.test(url);
-}
+//# sourceMappingURL=helpers.js.map
 
 var PLUGIN_NAME = 'auto-image-size';
 var index = postcss.plugin(PLUGIN_NAME, function () {
@@ -38,6 +39,8 @@ var index = postcss.plugin(PLUGIN_NAME, function () {
             var image = getMatchedImage(images, URL);
             if (!image)
                 return false;
+            if (image.type == 'online')
+                return console.log("online image not supported for the time being");
             var _b = sizeOf(image.path), width = _b.width, height = _b.height;
             declare.cloneAfter({
                 type: 'decl',
@@ -57,12 +60,14 @@ function extractImages(root) {
         var styleFilePath = root.source.input.file;
         var ruleString = rule.toString();
         var image = {
+            type: null,
             path: null,
             URL: null,
             originURL: null
         };
         if (hasBackground(ruleString)) {
             var _a = getImageURL(ruleString), originURL = _a[0], URL = _a[1];
+            image.type = getImageType(URL);
             image.URL = URL;
             image.originURL = originURL;
             if (imageSupported(image.URL)) {
