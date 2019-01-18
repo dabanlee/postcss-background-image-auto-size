@@ -6,6 +6,8 @@ const PLUGIN_NAME = 'auto-image-size';
 
 export default plugin(PLUGIN_NAME, () => {
     return root => {
+        root.walkComments(comment => comment.remove());
+
         const images: ImageType[] = extractImages(root);
 
         root.walkDecls(/^background(-image)?$/, (declare: any) => {

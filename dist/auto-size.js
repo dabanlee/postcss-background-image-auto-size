@@ -27,6 +27,7 @@ function imageSupported(url) {
 var PLUGIN_NAME = 'auto-image-size';
 var index = postcss.plugin(PLUGIN_NAME, function () {
     return function (root) {
+        root.walkComments(function (comment) { return comment.remove(); });
         var images = extractImages(root);
         root.walkDecls(/^background(-image)?$/, function (declare) {
             var rule = declare.parent;

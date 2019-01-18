@@ -2,9 +2,9 @@
   "name": "postcss-background-image-auto-size",
   "destName": "auto-size",
   "moduleName": "autosize",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A PostCSS plugin to add CSS rules `width` and `height` for `background-image` automatically.",
-  "main": "dist/auto-size.es.js",
+  "main": "dist/auto-size.js",
   "scripts": {
     "test": "node ./test",
     "start": "NODE_ENV=development rollup -w -c rollup.config.js",
