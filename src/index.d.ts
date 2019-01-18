@@ -1,3 +1,4 @@
+declare module 'path'
 declare module 'image-size'
 
 type ImageType = {
