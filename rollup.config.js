@@ -1,22 +1,45 @@
-import resolve from 'rollup-plugin-node-resolve';
-import typescript from 'rollup-plugin-typescript';
+import { terser } from 'rollup-plugin-terser'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import typescript from 'rollup-plugin-typescript2'
+import commonjs from '@rollup/plugin-commonjs'
 
-const { moduleName, destName: fileName } = require('./package.json');
-
-module.exports = {
-    input: 'src/index.ts',
-    output: {
-        file: `dist/${fileName}.js`,
-        format: 'cjs',
-        name: moduleName,
-        sourcemap: true,
-        globals: {
-            postcss: 'postcss',
-        },
+const isProd = process.env.NODE_ENV === 'production'
+const { moduleName, destName: name } = require('./package.json')
+const fileName = name
+const getFilePath = (format = '') => `dist/${fileName}${format == '' ? '' : '.'}${format}.js`
+const output = options => ({
+    name: moduleName,
+    sourcemap: true,
+    ...options,
+    globals: {
+        // 
     },
+})
+
+const configure = {
+    input: 'src/index.ts',
+    output: [output({
+        file: getFilePath(),
+        format: 'umd',
+    }), output({
+        file: getFilePath('es'),
+        format: 'es',
+    })],
     plugins: [
-        resolve(),
         typescript(),
+        commonjs(),
+        nodeResolve(),
     ],
-    external: ['postcss', 'image-size'],
-};
+    external: [],
+}
+
+if (isProd) {
+    configure.output = configure.output.map(output => {
+        const format = output.format == 'umd' ? '' : `.${output.format}`
+        output.file = `dist/${fileName}${format}.min.js`
+        return output
+    })
+    configure.plugins.push(terser())
+}
+
+module.exports = configure

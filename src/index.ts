@@ -2,7 +2,7 @@ import path from 'path';
 import sizeOf from 'image-size';
 import { plugin } from 'postcss';
 import { hasBackground, getImageURL, imageSupported, getMatchedImage, getImageType } from './helpers';
-const PLUGIN_NAME = 'auto-image-size';
+const PLUGIN_NAME = 'image-auto-size';
 
 export default plugin(PLUGIN_NAME, () => {
     return root => {
