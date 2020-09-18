@@ -2,7 +2,7 @@
   "name": "postcss-background-image-auto-size",
   "destName": "image-auto-size",
   "moduleName": "ImageAutoSize",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A PostCSS plugin to add CSS rules `width` and `height` for `background-image` automatically.",
   "main": "dist/image-auto-size.js",
   "module": "dist/image-auto-size.es.js",
@@ -18,7 +18,7 @@
     "url": "https://github.com/dabanlee/postcss-background-image-auto-size.git",
     "type": "git"
   },
-  "author": "JustClear <576839360@qq.com>",
+  "author": "大板栗 <576839360@qq.com>",
   "license": "MIT",
   "devDependencies": {
     "postcss": "^7.0.13",
