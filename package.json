@@ -15,7 +15,7 @@
     "build": "rm -rf dist && npm run dev && npm run prod"
   },
   "repository": {
-    "url": "https://github.com/JustClear/postcss-background-image-auto-size.git",
+    "url": "https://github.com/dabanlee/postcss-background-image-auto-size.git",
     "type": "git"
   },
   "author": "JustClear <576839360@qq.com>",
@@ -29,6 +29,9 @@
     "rollup-plugin-typescript2": "^0.27.1",
     "tslib": "^2.0.0",
     "typescript": "^3.9.3"
+  },
+  "peerDependencies": {
+    "postcss": "^7.0.13"
   },
   "dependencies": {
     "image-size": "^0.7.1"

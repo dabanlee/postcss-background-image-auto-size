@@ -4,42 +4,43 @@ import typescript from 'rollup-plugin-typescript2'
 import commonjs from '@rollup/plugin-commonjs'
 
 const isProd = process.env.NODE_ENV === 'production'
-const { moduleName, destName: name } = require('./package.json')
-const fileName = name
-const getFilePath = (format = '') => `dist/${fileName}${format == '' ? '' : '.'}${format}.js`
-const output = options => ({
-    name: moduleName,
-    sourcemap: true,
-    ...options,
-    globals: {
-        // 
-    },
-})
+const { moduleName, destName: _name, dependencies = {}, peerDependencies = {} } = require('./package.json')
+const name = _name.includes('/') ? _name.split('/')[1] : _name
+
+const formats = ['es']
 
 const configure = {
     input: 'src/index.ts',
-    output: [output({
-        file: getFilePath(),
-        format: 'umd',
-    }), output({
-        file: getFilePath('es'),
-        format: 'es',
-    })],
+    output: formats.map(format => ({
+        name: moduleName,
+        format,
+        sourcemap: true,
+        file: destName(name, format),
+        globals: {
+            // 
+        },
+    })),
     plugins: [
         typescript(),
         commonjs(),
         nodeResolve(),
     ],
-    external: [],
+    external: [
+        ...Object.keys(dependencies),
+        ...Object.keys(peerDependencies),
+    ],
 }
 
 if (isProd) {
     configure.output = configure.output.map(output => {
-        const format = output.format == 'umd' ? '' : `.${output.format}`
-        output.file = `dist/${fileName}${format}.min.js`
+        output.file = destName(name, output.format, true)
         return output
     })
     configure.plugins.push(terser())
 }
 
-module.exports = configure
+function destName(name = '', format = '', minify = false) {
+    return `dist/${name}${format == 'umd' ? '' : `.${format}`}${minify ? '.min' : ''}.js`
+}
+
+export default configure
