@@ -21,7 +21,7 @@
   "author": "大板栗 <576839360@qq.com>",
   "license": "MIT",
   "devDependencies": {
-    "postcss": "^7.0.13",
+    "postcss": "^8.2.10",
     "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-node-resolve": "^8.4.0",
     "rollup": "^2.26.4",
@@ -31,7 +31,7 @@
     "typescript": "^3.9.3"
   },
   "peerDependencies": {
-    "postcss": "^7.0.13"
+    "postcss": "^8.2.10"
   },
   "dependencies": {
     "image-size": "^0.7.1"
